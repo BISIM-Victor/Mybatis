@@ -5,7 +5,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 # Copia el JAR compilado a la imagen
-COPY target/Mybatis-0.0.1-SNAPSHOT.jar /app.jar
+COPY ./target/Mybatis-0.0.1-SNAPSHOT.jar /app.jar
 
 # Expone el puerto por defecto de Spring Boot
 EXPOSE 8081
