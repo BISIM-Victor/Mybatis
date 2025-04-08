@@ -5,7 +5,6 @@ import com.Mybatis.Mybatis.module.repository.RepositoryUsuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -24,7 +23,7 @@ public class UsuarioController {
 
     // Obtener usuario por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable int id) {
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable long id) {  // Cambiado a long
         Usuario usuario = repositoryUsuario.getUsuarioById(id);
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
@@ -38,7 +37,7 @@ public class UsuarioController {
 
     // Actualizar usuario
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUsuario(@PathVariable int id, @RequestBody Usuario usuario) {
+    public ResponseEntity<String> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {  // Cambiado a long
         usuario.setId(id); // Aseguramos que el ID sea el correcto
         repositoryUsuario.updateUsuario(usuario);
         return ResponseEntity.ok("Usuario actualizado exitosamente.");
@@ -46,8 +45,9 @@ public class UsuarioController {
 
     // Eliminar usuario
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUsuario(@PathVariable int id) {
+    public ResponseEntity<String> deleteUsuario(@PathVariable long id) {  // Cambiado a long
         repositoryUsuario.deleteUsuarioById(id);
         return ResponseEntity.ok("Usuario eliminado exitosamente.");
     }
 }
+

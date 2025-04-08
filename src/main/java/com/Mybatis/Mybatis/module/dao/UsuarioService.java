@@ -5,24 +5,22 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 @Component
 @Mapper
 public interface UsuarioService {
 
     // Definimos el SQL para insertar un nuevo usuario
-    final String insertUsuario = "INSERT INTO USUARIOS (NOMBRE, CORREO, TELEFONO, USUARIO, CONTRASENA, ESTATUS) " +
-            "VALUES (#{nombre}, #{correo}, #{telefono}, #{usuario}, #{contrasena}, #{estatus})";
+    final String insertUsuario = "INSERT INTO USUARIOS (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus) " +
+            "VALUES (#{usuario}, #{idPerfil}, #{nomUsuario}, #{apUsuario}, #{amUsuario}, #{extension}, #{oficina}, #{secret}, #{estatus})";
 
     // Definimos el SQL para obtener todos los usuarios
-    final String selectAllUsuariosQ = "SELECT id, nombre, correo, telefono, usuario, contrasena, estatus FROM USUARIOS";
+    final String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS";
 
     // Definimos el SQL para obtener un usuario por ID
-    final String selectUsuarioByIdQ = "SELECT id, nombre, correo, telefono, usuario, contrasena, estatus FROM USUARIOS WHERE id = #{id}";
+    final String selectUsuarioByIdQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS WHERE id = #{id}";
 
     // Definimos el SQL para actualizar un usuario
-    final String updateUsuarioQ = "UPDATE USUARIOS SET nombre = #{nombre}, correo = #{correo}, telefono = #{telefono}, " +
-            "usuario = #{usuario}, contrasena = #{contrasena}, estatus = #{estatus} WHERE id = #{id}";
+    final String updateUsuarioQ = "UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extension}, oficina = #{oficina}, secret = #{secret}, estatus = #{estatus} WHERE id = #{id}";
 
     // Definimos el SQL para eliminar un usuario por ID
     final String deleteUsuarioByIdQ = "DELETE FROM USUARIOS WHERE id = #{id}";
@@ -30,12 +28,19 @@ public interface UsuarioService {
     // Mapeamos el resultado para los usuarios
     @Results(id = "UsuarioMap", value = {
             @Result(property = "id", column = "id", id = true),
-            @Result(property = "nombre", column = "nombre"),
-            @Result(property = "correo", column = "correo"),
-            @Result(property = "telefono", column = "telefono"),
             @Result(property = "usuario", column = "usuario"),
-            @Result(property = "contrasena", column = "contrasena"),
-            @Result(property = "estatus", column = "estatus")
+            @Result(property = "idPerfil", column = "id_perfil"),
+            @Result(property = "nomUsuario", column = "nom_usuario"),
+            @Result(property = "apUsuario", column = "ap_usuario"),
+            @Result(property = "amUsuario", column = "am_usuario"),
+            @Result(property = "extension", column = "extencion"),
+            @Result(property = "oficina", column = "oficina"),
+            @Result(property = "secret", column = "secret"),
+            @Result(property = "estatus", column = "estatus"),
+            @Result(property = "lastCon", column = "LAST_CON"),
+            @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
+            @Result(property = "secretChange", column = "secret_change"),
+            @Result(property = "secretPolicy", column = "secret_policy")
     })
 
     // Obtener todos los usuarios
@@ -45,7 +50,7 @@ public interface UsuarioService {
     // Obtener un usuario por su ID
     @ResultMap("UsuarioMap")
     @Select(selectUsuarioByIdQ)
-    Usuario getUsuarioById(@Param("id") int id);
+    Usuario getUsuarioById(@Param("id") long id);
 
     // Insertar un nuevo usuario
     @Insert(insertUsuario)
@@ -58,5 +63,5 @@ public interface UsuarioService {
 
     // Eliminar un usuario por ID
     @Delete(deleteUsuarioByIdQ)
-    void deleteUsuarioById(@Param("id") int id);
+    void deleteUsuarioById(@Param("id") long id);
 }

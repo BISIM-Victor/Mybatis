@@ -10,12 +10,12 @@ public interface RepositoryUsuario {
 
     List<Usuario> getAllUsuarios();
 
-    Usuario getUsuarioById(int id);
+    Usuario getUsuarioById(long id);  // Cambiado a long
 
     void insertUsuario(Usuario usuario);
 
     void updateUsuario(Usuario usuario);
 
-    void deleteUsuarioById(int id);
-
+    void deleteUsuarioById(long id);  // Cambiado a long
 }
+

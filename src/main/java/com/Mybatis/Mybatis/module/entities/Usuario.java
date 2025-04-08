@@ -4,17 +4,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
+
 @Data
 @NoArgsConstructor
 public class Usuario {
 
     @JsonProperty("id")
-    private int id;
+    private long id;
 
-    private String nombre;
-    private String correo;
-    private String telefono;
     private String usuario;
-    private String contrasena;
-    private String estatus;
+    private long idPerfil;
+    private String nomUsuario;
+    private String apUsuario;
+    private String amUsuario;
+    private String extension;
+    private String oficina;
+    private String secret;
+    private Integer estatus;
+    private Timestamp lastCon;
+    private Timestamp lastSecretChange;
+    private Integer secretChange;
+    private Integer secretPolicy;
 }
