@@ -9,26 +9,14 @@ import java.util.List;
 @Mapper
 public interface UsuarioService {
 
-    // Definir el SQL para insertar un nuevo usuario
-    final String insertUsuario = "INSERT INTO USUARIOS (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, last_con, last_secret_change, secret_change, secret_policy) " +
-            "VALUES (#{usuario}, #{idPerfil}, #{nomUsuario}, #{apUsuario}, #{amUsuario}, #{extension}, #{oficina}, #{secret}, #{estatus}, #{lastCon}, #{lastSecretChange}, #{secretChange}, #{secretPolicy})";
+    // SQL para insertar un nuevo usuario
+    final String insertUsuario = "INSERT INTO USUARIOS (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy) " +
+            "VALUES (#{usuario}, #{idPerfil}, #{nomUsuario}, #{apUsuario}, #{amUsuario}, #{extencion}, #{oficina}, #{secret}, #{estatus}, #{lastCon}, #{lastSecretChange}, #{secretChange}, #{secretPolicy})";
 
-    // Definir el SQL para obtener todos los usuarios
-    final String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus FROM USUARIOS";
+    // SQL para obtener todos los usuarios
+    final String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS";
 
-    // Definir el SQL para obtener un usuario por ID
-    final String selectUsuarioByIdQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus FROM USUARIOS WHERE id = #{id}";
-
-    // Definir el SQL para actualizar un usuario
-    final String updateUsuarioQ = "UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, " +
-            "ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extension}, oficina = #{oficina}, secret = #{secret}, " +
-            "estatus = #{estatus}, last_con = #{lastCon}, last_secret_change = #{lastSecretChange}, secret_change = #{secretChange}, secret_policy = #{secretPolicy} WHERE id = #{id}";
-
-
-    // Definir el SQL para eliminar un usuario por ID
-    final String deleteUsuarioByIdQ = "DELETE FROM USUARIOS WHERE id = #{id}";
-
-    // Mapeamos el resultado para los usuarios
+    // Mapeo del resultado
     @Results(id = "UsuarioMap", value = {
             @Result(property = "id", column = "id", id = true),
             @Result(property = "usuario", column = "usuario"),
@@ -36,7 +24,7 @@ public interface UsuarioService {
             @Result(property = "nomUsuario", column = "nom_usuario"),
             @Result(property = "apUsuario", column = "ap_usuario"),
             @Result(property = "amUsuario", column = "am_usuario"),
-            @Result(property = "extension", column = "extension"),
+            @Result(property = "extencion", column = "extencion"),
             @Result(property = "oficina", column = "oficina"),
             @Result(property = "secret", column = "secret"),
             @Result(property = "estatus", column = "estatus"),
@@ -46,26 +34,21 @@ public interface UsuarioService {
             @Result(property = "secretPolicy", column = "secret_policy")
     })
 
-
-    // Obtener todos los usuarios
+    // Métodos del Mapper
     @Select(selectAllUsuariosQ)
     List<Usuario> getAllUsuarios();
 
-    // Obtener un usuario por su ID
-    @ResultMap("UsuarioMap")
-    @Select(selectUsuarioByIdQ)
+    @Select("SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS WHERE id = #{id}")
     Usuario getUsuarioById(@Param("id") long id);
 
-    // Insertar un nuevo usuario
     @Insert(insertUsuario)
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id") // Generar el id automáticamente
     void insertUsuario(Usuario usuario);
 
-    // Actualizar un usuario
-    @Update(updateUsuarioQ)
+    @Update("UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extencion}, oficina = #{oficina}, secret = #{secret}, estatus = #{estatus}, LAST_CON = #{lastCon}, LAST_SECRET_CHANGE = #{lastSecretChange}, secret_change = #{secretChange}, secret_policy = #{secretPolicy} WHERE id = #{id}")
     void updateUsuario(Usuario usuario);
 
-    // Eliminar un usuario por ID
-    @Delete(deleteUsuarioByIdQ)
+    @Delete("DELETE FROM USUARIOS WHERE id = #{id}")
     void deleteUsuarioById(@Param("id") long id);
 }
+

@@ -10,23 +10,20 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class Usuario {
 
-    @JsonProperty("id")
-    private long id;
-
+    private Long id;
     private String usuario;
-    private long idPerfil;
+    private Long idPerfil;
     private String nomUsuario;
     private String apUsuario;
     private String amUsuario;
-    private String extension;
+    private String extencion;
     private String oficina;
     private String secret;
     private Integer estatus;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private Timestamp lastCon;
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ")
     private Timestamp lastSecretChange;
     private Integer secretChange;
     private Integer secretPolicy;
+
 }
 
