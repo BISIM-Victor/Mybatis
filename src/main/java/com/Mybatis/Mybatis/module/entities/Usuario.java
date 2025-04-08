@@ -15,18 +15,19 @@ public class Usuario {
     private Long id;
 
     private String usuario;
-    private long idPerfil;
+    private Long idPerfil;
     private String nomUsuario;
     private String apUsuario;
     private String amUsuario;
     private String extencion;
     private String oficina;
     private String secret;
-    private int estatus;
+    private Integer estatus;  // Cambié a Integer ya que puede ser NULL
     private Timestamp lastCon;
     private Timestamp lastSecretChange;
-    private int secretChange;
-    private int secretPolicy;
+    private Integer secretChange;
+    private Integer secretPolicy;
 
 }
+
 
