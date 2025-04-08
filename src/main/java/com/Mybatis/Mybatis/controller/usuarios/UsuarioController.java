@@ -30,18 +30,19 @@ public class UsuarioController {
 
     // Insertar nuevo usuario
     @PostMapping
-    public ResponseEntity<String> insertUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> insertUsuario(@RequestBody Usuario usuario) {
         repositoryUsuario.insertUsuario(usuario);
-        return ResponseEntity.ok("Usuario creado exitosamente.");
+        return ResponseEntity.ok(usuario);  // Retorna el usuario con id actualizado
     }
 
     // Actualizar usuario
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {  // Cambiado a long
-        usuario.setId(id); // Aseguramos que el ID sea el correcto
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {
+        usuario.setId(id);  // Aseguramos que el ID sea el correcto
         repositoryUsuario.updateUsuario(usuario);
-        return ResponseEntity.ok("Usuario actualizado exitosamente.");
+        return ResponseEntity.ok(usuario);  // Retorna el usuario actualizado
     }
+
 
     // Eliminar usuario
     @DeleteMapping("/{id}")
