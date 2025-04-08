@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-
 @Data
 @NoArgsConstructor
 public class Usuario {
@@ -27,3 +26,4 @@ public class Usuario {
     private Integer secretChange;
     private Integer secretPolicy;
 }
+

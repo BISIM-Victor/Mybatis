@@ -3,26 +3,28 @@ package com.Mybatis.Mybatis.module.dao;
 import com.Mybatis.Mybatis.module.entities.Usuario;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
+
 @Component
 @Mapper
 public interface UsuarioService {
 
-    // Definimos el SQL para insertar un nuevo usuario
+    // Definir el SQL para insertar un nuevo usuario
     final String insertUsuario = "INSERT INTO USUARIOS (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus) " +
             "VALUES (#{usuario}, #{idPerfil}, #{nomUsuario}, #{apUsuario}, #{amUsuario}, #{extension}, #{oficina}, #{secret}, #{estatus})";
 
-    // Definimos el SQL para obtener todos los usuarios
-    final String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS";
+    // Definir el SQL para obtener todos los usuarios
+    final String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus FROM USUARIOS";
 
-    // Definimos el SQL para obtener un usuario por ID
-    final String selectUsuarioByIdQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS WHERE id = #{id}";
+    // Definir el SQL para obtener un usuario por ID
+    final String selectUsuarioByIdQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus FROM USUARIOS WHERE id = #{id}";
 
-    // Definimos el SQL para actualizar un usuario
-    final String updateUsuarioQ = "UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extension}, oficina = #{oficina}, secret = #{secret}, estatus = #{estatus} WHERE id = #{id}";
+    // Definir el SQL para actualizar un usuario
+    final String updateUsuarioQ = "UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, " +
+            "ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extension}, oficina = #{oficina}, secret = #{secret}, " +
+            "estatus = #{estatus} WHERE id = #{id}";
 
-    // Definimos el SQL para eliminar un usuario por ID
+    // Definir el SQL para eliminar un usuario por ID
     final String deleteUsuarioByIdQ = "DELETE FROM USUARIOS WHERE id = #{id}";
 
     // Mapeamos el resultado para los usuarios
@@ -36,11 +38,7 @@ public interface UsuarioService {
             @Result(property = "extension", column = "extencion"),
             @Result(property = "oficina", column = "oficina"),
             @Result(property = "secret", column = "secret"),
-            @Result(property = "estatus", column = "estatus"),
-            @Result(property = "lastCon", column = "LAST_CON"),
-            @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
-            @Result(property = "secretChange", column = "secret_change"),
-            @Result(property = "secretPolicy", column = "secret_policy")
+            @Result(property = "estatus", column = "estatus")
     })
 
     // Obtener todos los usuarios
