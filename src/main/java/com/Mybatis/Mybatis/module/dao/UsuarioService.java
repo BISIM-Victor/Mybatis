@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 @Mapper
 public interface UsuarioService {
-        
+
 
         String getAllUsuarios = "SELECT " +
                 "ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, " +
