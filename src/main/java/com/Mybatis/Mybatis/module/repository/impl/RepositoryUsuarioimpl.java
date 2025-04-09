@@ -11,42 +11,37 @@ import java.util.List;
 @Repository("repositoryUsuario")
 public class RepositoryUsuarioimpl implements RepositoryUsuario {
 
-    // Inyectar el UsuarioMapper para ejecutar las consultas de MyBatis
     @Resource
-    private RepositoryUsuario  usuarioMapper;
+    private UsuarioService usuarioService;
 
     @Override
     public List<Usuario> getAllUsuarios() {
-        // Llamar al método de MyBatis para obtener todos los usuarios
-        return usuarioMapper.getAllUsuarios();
-    }
-
-    @Override
-    public Usuario getUsuarioById(long id) {
-        // Llamar al método de MyBatis para obtener un usuario por ID
-        return usuarioMapper.getUsuarioById(id);
+        return usuarioService.getAllUsuarios();
     }
 
     @Override
     public void insertUsuario(Usuario usuario) {
-        // Llamar al método de MyBatis para insertar un nuevo usuario
-        usuarioMapper.insertUsuario(usuario);
+        usuarioService.insertUsuario(usuario);
     }
 
     @Override
     public void updateUsuario(Usuario usuario) {
-        // Llamar al método de MyBatis para actualizar un usuario
-        usuarioMapper.updateUsuario(usuario);
+        // Llamada al servicio para actualizar el usuario
+        usuarioService.updateUsuario(usuario);
     }
 
     @Override
-    public void deleteUsuarioById(long id) {
-        // Llamar al método de MyBatis para eliminar un usuario por ID
-        usuarioMapper.deleteUsuarioById(id);
+    public void deleteUsuario(Long id) {
+        // Llamada al servicio para eliminar el usuario por ID
+        usuarioService.deleteUsuario(id);
+    }
+
+    @Override
+    public Usuario getUsuarioById(Long id) {
+        // Llamada al servicio para obtener el usuario por ID
+        return usuarioService.getUsuarioById(id);
     }
 }
-
-
 
 
 

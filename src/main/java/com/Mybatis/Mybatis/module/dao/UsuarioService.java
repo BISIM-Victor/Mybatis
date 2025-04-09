@@ -3,57 +3,90 @@ package com.Mybatis.Mybatis.module.dao;
 import com.Mybatis.Mybatis.module.entities.Usuario;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 @Component
 @Mapper
 public interface UsuarioService {
 
-    // Consulta SQL para obtener todos los usuarios
-    String selectAllUsuariosQ = "SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, " +
-            "extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS";
+        String getAllUsuarios = "SELECT " +
+                "ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, " +
+                "LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy " +
+                "FROM usuarios";
 
-    // Consulta SQL para insertar un nuevo usuario
-    String insertUsuario = "INSERT INTO USUARIOS (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy) " +
-            "VALUES (#{usuario}, #{idPerfil}, #{nomUsuario}, #{apUsuario}, #{amUsuario}, #{extencion}, #{oficina}, #{secret}, #{estatus}, #{lastCon}, #{lastSecretChange}, #{secretChange}, #{secretPolicy})";
+        String insertUsuario = "INSERT INTO usuarios (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy) " +
+                "VALUES (#{usuario.usuario}, #{usuario.idPerfil}, #{usuario.nomUsuario}, #{usuario.apUsuario}, #{usuario.amUsuario}, #{usuario.extencion}, #{usuario.oficina}, " +
+                "#{usuario.secret}, #{usuario.estatus}, #{usuario.lastCon}, #{usuario.lastSecretChange}, #{usuario.secretChange}, #{usuario.secretPolicy})";
 
-    // Mapeo del resultado (Nota: Cambié los nombres de las columnas para coincidir con las de la tabla)
-    @Results(id = "UsuarioMap", value = {
-            @Result(property = "id", column = "id", id = true),
-            @Result(property = "usuario", column = "usuario"),
-            @Result(property = "idPerfil", column = "id_perfil"),
-            @Result(property = "nomUsuario", column = "nom_usuario"),
-            @Result(property = "apUsuario", column = "ap_usuario"),
-            @Result(property = "amUsuario", column = "am_usuario"),
-            @Result(property = "extencion", column = "extencion"),
-            @Result(property = "oficina", column = "oficina"),
-            @Result(property = "secret", column = "secret"),
-            @Result(property = "estatus", column = "estatus"),
-            @Result(property = "lastCon", column = "LAST_CON"),
-            @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
-            @Result(property = "secretChange", column = "secret_change"),
-            @Result(property = "secretPolicy", column = "secret_policy")
-    })
+        String updateUsuario = "UPDATE usuarios SET " +
+                "USUARIO = #{usuario.usuario}, id_perfil = #{usuario.idPerfil}, nom_usuario = #{usuario.nomUsuario}, " +
+                "ap_usuario = #{usuario.apUsuario}, am_usuario = #{usuario.amUsuario}, extencion = #{usuario.extencion}, " +
+                "oficina = #{usuario.oficina}, secret = #{usuario.secret}, estatus = #{usuario.estatus}, " +
+                "LAST_CON = #{usuario.lastCon}, LAST_SECRET_CHANGE = #{usuario.lastSecretChange}, " +
+                "secret_change = #{usuario.secretChange}, secret_policy = #{usuario.secretPolicy} " +
+                "WHERE ID = #{usuario.id}";
 
-    // Obtener todos los usuarios
-    @Select(selectAllUsuariosQ)
-    List<Usuario> getAllUsuarios();
+        String deleteUsuario = "DELETE FROM usuarios WHERE ID = #{id}";
 
-    // Obtener un usuario por su ID
-    @Select("SELECT id, usuario, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM USUARIOS WHERE id = #{id}")
-    Usuario getUsuarioById(@Param("id") long id);
+        // Buscar un usuario por ID
+        String getUsuarioById = "SELECT " +
+                "ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, " +
+                "LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy " +
+                "FROM usuarios WHERE ID = #{id}";
 
-    // Insertar un nuevo usuario
-    @Insert(insertUsuario)
-    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
-    void insertUsuario(Usuario usuario);
+        // Seleccionar todos los usuarios
+        @Results(id = "UserMapUnique", value = {
+                @Result(property = "id", column = "ID", id = true),
+                @Result(property = "usuario", column = "USUARIO"),
+                @Result(property = "idPerfil", column = "id_perfil"),
+                @Result(property = "nomUsuario", column = "nom_usuario"),
+                @Result(property = "apUsuario", column = "ap_usuario"),
+                @Result(property = "amUsuario", column = "am_usuario"),
+                @Result(property = "extencion", column = "extencion"),
+                @Result(property = "oficina", column = "oficina"),
+                @Result(property = "secret", column = "secret"),
+                @Result(property = "estatus", column = "estatus"),
+                @Result(property = "lastCon", column = "LAST_CON"),
+                @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
+                @Result(property = "secretChange", column = "secret_change"),
+                @Result(property = "secretPolicy", column = "secret_policy")
+        })
 
-    // Actualizar un usuario existente
-    @Update("UPDATE USUARIOS SET usuario = #{usuario}, id_perfil = #{idPerfil}, nom_usuario = #{nomUsuario}, ap_usuario = #{apUsuario}, am_usuario = #{amUsuario}, extencion = #{extencion}, oficina = #{oficina}, secret = #{secret}, estatus = #{estatus}, LAST_CON = #{lastCon}, LAST_SECRET_CHANGE = #{lastSecretChange}, secret_change = #{secretChange}, secret_policy = #{secretPolicy} WHERE id = #{id}")
-    void updateUsuario(Usuario usuario);
+        @Select(getAllUsuarios)
+        List<Usuario> getAllUsuarios();
 
-    // Eliminar un usuario por su ID
-    @Delete("DELETE FROM USUARIOS WHERE id = #{id}")
-    void deleteUsuarioById(@Param("id") long id);
+        // Insertar un nuevo usuario
+        @Insert(insertUsuario)
+        @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "ID")
+        void insertUsuario(@Param("usuario") Usuario usuario);
+
+        // Actualizar un usuario
+        @Update(updateUsuario)
+        void updateUsuario(@Param("usuario") Usuario usuario);
+
+        // Eliminar un usuario por ID
+        @Delete(deleteUsuario)
+        void deleteUsuario(@Param("id") Long id);
+
+        // Buscar un usuario por ID
+        @Results(id = "UserMap", value = {
+                @Result(property = "id", column = "ID", id = true),
+                @Result(property = "usuario", column = "USUARIO"),
+                @Result(property = "idPerfil", column = "id_perfil"),
+                @Result(property = "nomUsuario", column = "nom_usuario"),
+                @Result(property = "apUsuario", column = "ap_usuario"),
+                @Result(property = "amUsuario", column = "am_usuario"),
+                @Result(property = "extencion", column = "extencion"),
+                @Result(property = "oficina", column = "oficina"),
+                @Result(property = "secret", column = "secret"),
+                @Result(property = "estatus", column = "estatus"),
+                @Result(property = "lastCon", column = "LAST_CON"),
+                @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
+                @Result(property = "secretChange", column = "secret_change"),
+                @Result(property = "secretPolicy", column = "secret_policy")
+        })
+        @Select(getUsuarioById)
+        Usuario getUsuarioById(@Param("id") Long id);
 }
 

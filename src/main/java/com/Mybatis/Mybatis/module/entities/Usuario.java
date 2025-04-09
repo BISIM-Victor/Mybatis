@@ -12,22 +12,21 @@ import java.sql.Timestamp;
 public class Usuario {
 
     @JsonProperty("id")
-    private Long id;
+    private long id;
 
     private String usuario;
-    private Long idPerfil;
+    private long idPerfil;
     private String nomUsuario;
     private String apUsuario;
     private String amUsuario;
     private String extencion;
     private String oficina;
     private String secret;
-    private Integer estatus;  // Cambié a Integer ya que puede ser NULL
+    private Integer estatus;
     private Timestamp lastCon;
     private Timestamp lastSecretChange;
-    private Integer secretChange;
-    private Integer secretPolicy;
+    private int secretChange;
+    private int secretPolicy;
 
 }
-
 

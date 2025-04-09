@@ -4,18 +4,22 @@ import com.Mybatis.Mybatis.module.entities.Usuario;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 @Component
 public interface RepositoryUsuario {
 
+    // Obtener todos los usuarios
     List<Usuario> getAllUsuarios();
 
-    Usuario getUsuarioById(long id);  // Cambiado a long
-
+    // Insertar un nuevo usuario
     void insertUsuario(Usuario usuario);
 
+    // Actualizar un usuario existente
     void updateUsuario(Usuario usuario);
 
-    void deleteUsuarioById(long id);  // Cambiado a long
+    // Eliminar un usuario por ID
+    void deleteUsuario(Long id);
+
+    // Buscar un usuario por ID
+    Usuario getUsuarioById(Long id);
 }
 

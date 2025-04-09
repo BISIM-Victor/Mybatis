@@ -3,10 +3,12 @@ package com.Mybatis.Mybatis.controller.usuarios;
 import com.Mybatis.Mybatis.module.entities.Usuario;
 import com.Mybatis.Mybatis.module.repository.RepositoryUsuario;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/usuarios")
@@ -16,52 +18,69 @@ public class UsuarioController {
     // Inyectamos el repository
     private final RepositoryUsuario repositoryUsuario;
 
-    // Obtener todos los usuarios
+    @GetMapping("home")
+   public String getapp() {
+       return "app functional";
+   }
+    // Endpoint para obtener todos los usuarios
     @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return repositoryUsuario.getAllUsuarios();
+    public ResponseEntity<List<Usuario>> getAllUsuarios() {
+        try {
+            List<Usuario> usuarios = repositoryUsuario.getAllUsuarios();
+            return ResponseEntity.ok(usuarios);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);  // Puedes manejar el error con el mensaje que necesites
+        }
     }
 
-    // Obtener usuario por ID
+    // Endpoint para obtener un usuario por su ID
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable long id) {  // Cambiado a long
-        Usuario usuario = repositoryUsuario.getUsuarioById(id);
-        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
+        try {
+            Usuario usuario = repositoryUsuario.getUsuarioById(id);
+            if (usuario != null) {
+                return ResponseEntity.ok(usuario);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
-    // Insertar nuevo usuario
+    // Endpoint para insertar un nuevo usuario
     @PostMapping
-    public ResponseEntity<?> insertUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> insertUsuario(@RequestBody Usuario usuario) {
         try {
             repositoryUsuario.insertUsuario(usuario);
-            return ResponseEntity.ok(usuario);  // Retorna el usuario con ID actualizado
+            return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al insertar el usuario: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);  // Puedes manejar el error con el mensaje que necesites
         }
     }
 
-    // Actualizar usuario
+    // Endpoint para actualizar un usuario
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUsuario(@PathVariable long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         try {
-            usuario.setId(id);
+            usuario.setId(id);  // Asegurarse de que el ID del usuario es el que se quiere actualizar
             repositoryUsuario.updateUsuario(usuario);
-            return ResponseEntity.ok(usuario);
+            return ResponseEntity.status(HttpStatus.OK).body(usuario);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el usuario: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
-
-    // Eliminar usuario
+    // Endpoint para eliminar un usuario
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUsuario(@PathVariable long id) {
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         try {
-            repositoryUsuario.deleteUsuarioById(id);
-            return ResponseEntity.ok().body("Usuario eliminado exitosamente.");
+            repositoryUsuario.deleteUsuario(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar el usuario: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
-
