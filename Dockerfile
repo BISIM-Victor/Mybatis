@@ -7,8 +7,8 @@ WORKDIR /app
 # Copia el JAR compilado a la imagen
 COPY ./target/Mybatis-0.0.1-SNAPSHOT.jar /app.jar
 
-# Expone el puerto por defecto de Spring Boot
-EXPOSE 8081
+# Expone el puerto por defecto de Spring Boot (cámbialo a 8080)
+EXPOSE 8080
 
 # Comando para ejecutar la app
 ENTRYPOINT ["java", "-jar", "/app.jar"]
