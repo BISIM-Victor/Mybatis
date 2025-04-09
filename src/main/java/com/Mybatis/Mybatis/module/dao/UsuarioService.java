@@ -11,31 +11,18 @@ import java.util.List;
 @Mapper
 public interface UsuarioService {
 
-        String getAllUsuarios = "SELECT " +
-                "ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, " +
-                "LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy " +
-                "FROM usuarios";
+        String getAllUsuarios = "SELECT ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM usuarios";
 
         String insertUsuario = "INSERT INTO usuarios (USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy) " +
-                "VALUES (#{usuario.usuario}, #{usuario.idPerfil}, #{usuario.nomUsuario}, #{usuario.apUsuario}, #{usuario.amUsuario}, #{usuario.extencion}, #{usuario.oficina}, " +
-                "#{usuario.secret}, #{usuario.estatus}, #{usuario.lastCon}, #{usuario.lastSecretChange}, #{usuario.secretChange}, #{usuario.secretPolicy})";
+                "VALUES (#{usuario.usuario}, #{usuario.idPerfil}, #{usuario.nomUsuario}, #{usuario.apUsuario}, #{usuario.amUsuario}, #{usuario.extencion}, #{usuario.oficina}, #{usuario.secret}, #{usuario.estatus}, #{usuario.lastCon}, #{usuario.lastSecretChange}, #{usuario.secretChange}, #{usuario.secretPolicy})";
 
-        String updateUsuario = "UPDATE usuarios SET " +
-                "USUARIO = #{usuario.usuario}, id_perfil = #{usuario.idPerfil}, nom_usuario = #{usuario.nomUsuario}, " +
-                "ap_usuario = #{usuario.apUsuario}, am_usuario = #{usuario.amUsuario}, extencion = #{usuario.extencion}, " +
-                "oficina = #{usuario.oficina}, secret = #{usuario.secret}, estatus = #{usuario.estatus}, " +
-                "LAST_CON = #{usuario.lastCon}, LAST_SECRET_CHANGE = #{usuario.lastSecretChange}, " +
-                "secret_change = #{usuario.secretChange}, secret_policy = #{usuario.secretPolicy} " +
-                "WHERE ID = #{usuario.id}";
+        String updateUsuario = "UPDATE usuarios SET USUARIO = #{usuario.usuario}, id_perfil = #{usuario.idPerfil}, nom_usuario = #{usuario.nomUsuario}, ap_usuario = #{usuario.apUsuario}, am_usuario = #{usuario.amUsuario}, extencion = #{usuario.extencion}, oficina = #{usuario.oficina}, secret = #{usuario.secret}, estatus = #{usuario.estatus}, LAST_CON = #{usuario.lastCon}, LAST_SECRET_CHANGE = #{usuario.lastSecretChange}, secret_change = #{usuario.secretChange}, secret_policy = #{usuario.secretPolicy} WHERE ID = #{usuario.id}";
 
         String deleteUsuario = "DELETE FROM usuarios WHERE ID = #{id}";
 
-        String getUsuarioById = "SELECT " +
-                "ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, " +
-                "LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy " +
-                "FROM usuarios WHERE ID = #{id}";
+        String getUsuarioById = "SELECT ID, USUARIO, id_perfil, nom_usuario, ap_usuario, am_usuario, extencion, oficina, secret, estatus, LAST_CON, LAST_SECRET_CHANGE, secret_change, secret_policy FROM usuarios WHERE ID = #{id}";
 
-        // RESULT MAP GLOBAL
+        // --- getAllUsuarios ---
         @Select(getAllUsuarios)
         @Results({
                 @Result(property = "id", column = "ID", id = true),
@@ -65,8 +52,9 @@ public interface UsuarioService {
         @Delete(deleteUsuario)
         void deleteUsuario(@Param("id") Long id);
 
+        // --- getUsuarioById ---
         @Select(getUsuarioById)
-        @Results({
+        @Results({  // usa los mismos campos que arriba
                 @Result(property = "id", column = "ID", id = true),
                 @Result(property = "usuario", column = "USUARIO"),
                 @Result(property = "idPerfil", column = "id_perfil"),
@@ -84,6 +72,7 @@ public interface UsuarioService {
         })
         Usuario getUsuarioById(@Param("id") Long id);
 }
+
 //@Component
 //@Mapper
 //public interface UsuarioService {
