@@ -36,7 +36,8 @@ public interface UsuarioService {
                 "FROM usuarios WHERE ID = #{id}";
 
         // RESULT MAP GLOBAL
-        @Results(id = "UserMap", value = {
+        @Select(getAllUsuarios)
+        @Results({
                 @Result(property = "id", column = "ID", id = true),
                 @Result(property = "usuario", column = "USUARIO"),
                 @Result(property = "idPerfil", column = "id_perfil"),
@@ -52,9 +53,6 @@ public interface UsuarioService {
                 @Result(property = "secretChange", column = "secret_change"),
                 @Result(property = "secretPolicy", column = "secret_policy")
         })
-
-        @Select(getAllUsuarios)
-        @ResultMap("UserMap")
         List<Usuario> getAllUsuarios();
 
         @Insert(insertUsuario)
@@ -68,10 +66,24 @@ public interface UsuarioService {
         void deleteUsuario(@Param("id") Long id);
 
         @Select(getUsuarioById)
-        @ResultMap("UserMap")
+        @Results({
+                @Result(property = "id", column = "ID", id = true),
+                @Result(property = "usuario", column = "USUARIO"),
+                @Result(property = "idPerfil", column = "id_perfil"),
+                @Result(property = "nomUsuario", column = "nom_usuario"),
+                @Result(property = "apUsuario", column = "ap_usuario"),
+                @Result(property = "amUsuario", column = "am_usuario"),
+                @Result(property = "extencion", column = "extencion"),
+                @Result(property = "oficina", column = "oficina"),
+                @Result(property = "secret", column = "secret"),
+                @Result(property = "estatus", column = "estatus"),
+                @Result(property = "lastCon", column = "LAST_CON"),
+                @Result(property = "lastSecretChange", column = "LAST_SECRET_CHANGE"),
+                @Result(property = "secretChange", column = "secret_change"),
+                @Result(property = "secretPolicy", column = "secret_policy")
+        })
         Usuario getUsuarioById(@Param("id") Long id);
 }
-
 //@Component
 //@Mapper
 //public interface UsuarioService {
