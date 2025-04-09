@@ -37,6 +37,7 @@ public interface UsuarioService {
                 "FROM usuarios WHERE ID = #{id}";
 
         // Seleccionar todos los usuarios
+        @Select(getAllUsuarios)
         @Results(id = "UserMapUnique", value = {
                 @Result(property = "id", column = "ID", id = true),
                 @Result(property = "usuario", column = "USUARIO"),
@@ -53,8 +54,6 @@ public interface UsuarioService {
                 @Result(property = "secretChange", column = "secret_change"),
                 @Result(property = "secretPolicy", column = "secret_policy")
         })
-
-        @Select(getAllUsuarios)
         List<Usuario> getAllUsuarios();
 
         // Insertar un nuevo usuario
